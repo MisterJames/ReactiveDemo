@@ -34,6 +34,8 @@ namespace ReactiveApp.Web.Controllers
                 MessageId = Guid.NewGuid(),
                 CartId = cartId,
                 ItemId = item.ItemId,
+                ItemName = item.Name,
+                MessageId = Guid.NewGuid(),
                 Quantity = item.Quantity
             };
 
