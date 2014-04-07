@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.ModelBinding;
+using Dapper;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Queue;
@@ -82,7 +83,7 @@ namespace ReactiveApp.Web.Controllers
             var cartId = Guid.Parse((string)HttpContext.Current.Session[MvcApplication.SessionCartIdKey]);
 
             // add item to cart
-            var itemToAdd = new AddItemToCart
+            var message = new ItemAddedToCart
             {
                 MessageId = Guid.NewGuid(),
                 CartId = cartId,
@@ -93,15 +94,13 @@ namespace ReactiveApp.Web.Controllers
             
             try
             {
-                var serializedItem = JsonConvert.SerializeObject(itemToAdd);
-
-                var storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
-                var queueClient = storageAccount.CreateCloudQueueClient();
-                var queue = queueClient.GetQueueReference("additemtocartqueue");
-                queue.CreateIfNotExists();
-                var message = new CloudQueueMessage(serializedItem);
-
-                queue.AddMessage(message);
+                // save the item to the cart
+                using (var connection = new SqlConnection(Config.DefaultConnection))
+                {
+                    connection.Open();
+                    connection.Execute("insert into cartitems(cartid, itemid, quantity, name, messageId) values (@cartId, @itemId, @quantity, @itemname, @messageId)", message);
+                }
+                
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
             catch 
