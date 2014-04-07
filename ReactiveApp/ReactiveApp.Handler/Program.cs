@@ -32,20 +32,31 @@ namespace ReactiveApp.Handler
         }
         private static void PublishEvents(AddItemToCart message)
         {
-            var itemAddedToCartEvent = new ItemAddedToCart { CartId = message.CartId, ItemId = message.ItemId, ItemName = message.ItemName, MessageId = message.MessageId, Quantity = message.Quantity };
-
-            var serializedItem = JsonConvert.SerializeObject(itemAddedToCartEvent);
-
+            string serializedItem = GetEvent(message);
             var storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
             var queueClient = storageAccount.CreateCloudQueueClient();
 
             var queueMessage = new CloudQueueMessage(serializedItem);
 
+            PublishToRelationalDataStore(queueClient, queueMessage);
+            PublisToTableDataStore(queueClient, queueMessage);
+        }
+        private static string GetEvent(AddItemToCart message)
+        {
+            var itemAddedToCartEvent = new ItemAddedToCart { CartId = message.CartId, ItemId = message.ItemId, ItemName = message.ItemName, MessageId = message.MessageId, Quantity = message.Quantity };
+
+            var serializedItem = JsonConvert.SerializeObject(itemAddedToCartEvent);
+            return serializedItem;
+        }
+        private static void PublishToRelationalDataStore(CloudQueueClient queueClient, CloudQueueMessage queueMessage)
+        {
             var queue = queueClient.GetQueueReference("itemaddedtocartrelational");
             queue.CreateIfNotExists();
             queue.AddMessage(queueMessage);
-
-            queue = queueClient.GetQueueReference("itemaddedtocarttable");
+        }
+        private static void PublisToTableDataStore(CloudQueueClient queueClient, CloudQueueMessage queueMessage)
+        {
+            var queue = queueClient.GetQueueReference("itemaddedtocarttable");
             queue.CreateIfNotExists();
             queue.AddMessage(queueMessage);
         }
@@ -67,15 +78,20 @@ namespace ReactiveApp.Handler
             var message = JsonConvert.DeserializeObject<Reactive.Messages.ItemAddedToCart>(inputText);
             if (message != null)
             {
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
-                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-                var table = tableClient.GetTableReference("cartitems");
-                table.CreateIfNotExists();
+                CloudTable table = GetTableRefernce();
 
                 var insertOperation = TableOperation.Insert(new CartItemTableEntity(message.MessageId, message.CartId, message.ItemId, message.ItemName, message.Quantity));
 
                 table.Execute(insertOperation);
             }
+        }
+        private static CloudTable GetTableRefernce()
+        {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            var table = tableClient.GetTableReference("cartitems");
+            table.CreateIfNotExists();
+            return table;
         }
     }
 
