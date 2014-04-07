@@ -40,9 +40,9 @@ namespace ReactiveApp.Web.Controllers
             {
                 var serializedItem = JsonConvert.SerializeObject(itemToAdd);
 
-                var storageAccount = CloudStorageAccount.Parse("");
+                var storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
                 var queueClient = storageAccount.CreateCloudQueueClient();
-                var queue = queueClient.GetQueueReference("");
+                var queue = queueClient.GetQueueReference("additemtocartqueue");
                 var message = new CloudQueueMessage(serializedItem);
 
                 queue.AddMessage(message);
