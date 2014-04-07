@@ -1,18 +1,18 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" ng-app="@ViewBag.AngularModule">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    
+
     @{
         var databaseState = MvcApplication.DbServiceState.ToString();
     }
-
+    <script src="~/Scripts/angular.min.js"></script>
 </head>
-<body>
+<body ng-controller="@ViewBag.AngularController">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">

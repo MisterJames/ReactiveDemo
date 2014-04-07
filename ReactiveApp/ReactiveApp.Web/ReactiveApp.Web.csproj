@@ -197,6 +197,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\DbManagementController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -218,6 +219,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\Application\Controllers.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\prdcreactive.pubxml" />
@@ -279,6 +282,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Reactive.Messages\Reactive.Messages.csproj">
       <Project>{77aaebde-a922-4140-96a7-b4bd923b6272}</Project>
+      <Project>{77AAEBDE-A922-4140-96A7-B4BD923B6272}</Project>
       <Name>Reactive.Messages</Name>
     </ProjectReference>
   </ItemGroup>

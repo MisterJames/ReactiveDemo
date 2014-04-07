@@ -19,6 +19,7 @@ namespace ReactiveApp.Web
     public class MvcApplication : System.Web.HttpApplication
     {
         public static DbServiceState DbServiceState { get; set; }
+        public const string SessionCartIdKey = "shopping_cart_id";
 
         protected void Application_Start()
         {
@@ -34,7 +35,7 @@ namespace ReactiveApp.Web
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            Session["CardId"] = Guid.NewGuid().ToString();
+            Session[SessionCartIdKey] = Guid.NewGuid().ToString();
         }
 
     }
