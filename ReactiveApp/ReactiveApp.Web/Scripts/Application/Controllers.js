@@ -23,6 +23,7 @@ productList.controller('CartCtrl', function ($scope) {
     var url = "/api/cart";
     $.get(url).done(function(data) {
         $scope.cartItems = data;
+        $scope.$apply();
     });
 
 });

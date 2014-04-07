@@ -54,7 +54,7 @@ namespace ReactiveApp.Web.Controllers
             {
                 connection.Open();
 
-                var cmd = new SqlCommand("select itemId, [name], quantity from items where cartid = @cartId ", connection);
+                var cmd = new SqlCommand("select itemId, [name], quantity from cartitems where cartid = @cartId ", connection);
                 cmd.Parameters.AddWithValue("cartId", cartId);
 
                 using (var reader = cmd.ExecuteReader())
