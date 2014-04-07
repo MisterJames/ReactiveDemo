@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,11 +20,44 @@ namespace ReactiveApp.Web.Controllers
     public class CartController : ApiController
     {
 
-        public List<string> Get()
+        public List<AddItemModel> Get()
         {
             // return all items in cart
-            throw  new NotImplementedException();
+            if (MvcApplication.DbServiceState == DbServiceState.RealTime)
+                return GetCartFromRelational();
+            else
+                return GetCartFromTable();
+
         }
+
+        private List<AddItemModel> GetCartFromTable()
+        {
+            throw new NotImplementedException();
+        }
+
+        private List<AddItemModel> GetCartFromRelational()
+        {
+            var result = new List<AddItemModel>();
+            using (var connection = new SqlConnection(Config.DefaultConnection))
+            {
+                connection.Open();
+
+                var cmd = new SqlCommand("select ", connection);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        
+                    }
+                }
+
+                connection.Close();
+            }
+
+            return result;
+        }
+
 
         public HttpResponseMessage Post(AddItemModel item)
         {
