@@ -38,17 +38,25 @@ namespace ReactiveApp.Web.Controllers
         private List<AddItemModel> GetCartFromRelational()
         {
             var result = new List<AddItemModel>();
+            var cartId = (string)HttpContext.Current.Session[MvcApplication.SessionCartIdKey]; 
+            
             using (var connection = new SqlConnection(Config.DefaultConnection))
             {
                 connection.Open();
 
-                var cmd = new SqlCommand("select ", connection);
+                var cmd = new SqlCommand("select itemId, [name], quantity from items where cartid = @cartId ", connection);
+                cmd.Parameters.AddWithValue("cartId", cartId);
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        
+                        result.Add(new AddItemModel
+                        {
+                            ItemId = reader.GetGuid(0),
+                            Name = reader.GetString(1),
+                            Quantity = reader.GetInt32(2)
+                        });
                     }
                 }
 
