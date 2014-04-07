@@ -15,9 +15,10 @@ namespace ReactiveApp.Common
             this.RowKey = messageId.ToString();
             Name = name;
             Quanity = quantity;
-
+            ItemId = itemId;
         }
 
+        public Guid ItemId { get; set; }
         public string Name { get; set; }
         public int Quanity { get; set; }
     }
