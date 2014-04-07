@@ -31,5 +31,11 @@ namespace ReactiveApp.Web
             DbServiceState = DbServiceState.RealTime;
 
         }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            Session["CardId"] = Guid.NewGuid().ToString();
+        }
+
     }
 }

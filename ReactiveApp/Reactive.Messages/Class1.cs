@@ -11,6 +11,6 @@ namespace Reactive.Messages
         public Guid ItemId { get; set; }
         public Guid CartId { get; set; }
         public string ItemName { get; set; }
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }
