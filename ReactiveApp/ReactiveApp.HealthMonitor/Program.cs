@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Jobs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,9 @@ namespace ReactiveApp.HealthMonitor
     {
         static void Main(string[] args)
         {
+            var monitor = new DbMonitor();
+            monitor.Monitor();
         }
+
     }
 }
