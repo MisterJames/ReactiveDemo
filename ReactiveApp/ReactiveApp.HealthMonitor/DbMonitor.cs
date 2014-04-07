@@ -21,7 +21,7 @@ namespace ReactiveApp.HealthMonitor
         }
         public void EngageMonitoring()
         {
-            System.Diagnostics.Trace.Write("Checking database");
+            System.Diagnostics.Trace.TraceInformation("Checking database");
             try
             {
                 using (var connection = new SqlConnection(Config.DefaultConnection))
@@ -29,25 +29,41 @@ namespace ReactiveApp.HealthMonitor
                     connection.Open();
                     connection.Close();
                 }
-                System.Diagnostics.Trace.Write("Database looks good");
+                System.Diagnostics.Trace.TraceInformation("Database looks good");
                 UpgradeDatabase();
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Trace.Write("Database failure");
+
+                System.Diagnostics.Trace.TraceInformation("Database failure");
                 DegradeDatabase();
-                System.Diagnostics.Trace.Write("Database degregation complete");
+                System.Diagnostics.Trace.TraceInformation("Database degregation complete");
             }
         }
         private void DegradeDatabase()
         {
-            var webClient = new System.Net.WebClient();
-            webClient.DownloadString(Config.DegradeURL);
+            try
+            {
+                var webClient = new System.Net.WebClient();
+                webClient.DownloadString(Config.DegradeURL);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError("Unable to degrade " + ex);
+            }
         }
         private void UpgradeDatabase()
         {
-            var webClient = new System.Net.WebClient();
-            webClient.DownloadString(Config.UpgradeURL);
+            try
+            {
+                var webClient = new System.Net.WebClient();
+                webClient.DownloadString(Config.UpgradeURL);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError("Unable to upgrade " + ex);   
+            }
+            
         }
 
 

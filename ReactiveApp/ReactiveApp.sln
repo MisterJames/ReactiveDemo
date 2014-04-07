@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveApp.HealthMonitor",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reactive.Messages", "Reactive.Messages\Reactive.Messages.csproj", "{77AAEBDE-A922-4140-96A7-B4BD923B6272}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveApp.Common", "ReactiveApp.Common\ReactiveApp.Common.csproj", "{60F40C4E-471C-443C-908A-927C028465E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{77AAEBDE-A922-4140-96A7-B4BD923B6272}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77AAEBDE-A922-4140-96A7-B4BD923B6272}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77AAEBDE-A922-4140-96A7-B4BD923B6272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60F40C4E-471C-443C-908A-927C028465E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60F40C4E-471C-443C-908A-927C028465E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60F40C4E-471C-443C-908A-927C028465E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60F40C4E-471C-443C-908A-927C028465E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
