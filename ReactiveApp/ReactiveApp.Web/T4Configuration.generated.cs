@@ -37,6 +37,14 @@ namespace ReactiveApp.Web
 				return ConfigurationManager.AppSettings["UnobtrusiveJavaScriptEnabled"];
 			}
 		}
+	
+		public static String StorageConnectionString
+		{
+			get
+			{
+				return ConfigurationManager.AppSettings["StorageConnectionString"];
+			}
+		}
 		public static String DefaultConnection
 		{
 			get
