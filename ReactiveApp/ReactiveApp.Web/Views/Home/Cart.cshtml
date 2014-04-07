@@ -1,0 +1,29 @@
+﻿@model IEnumerable<ReactiveApp.Web.Models.AddItemModel>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+@{
+    ViewBag.AngularModule = "reactiveApp";
+    ViewBag.AngularController = "CartCtrl";    
+}
+<h2>Cart</h2>
+
+
+<table class="table">
+
+    <tr ng-repeat="cartItem in cartItems">
+        <td>
+            {{cartItem.name}}
+        </td>
+        <td>
+            {{cartItem.quantity}}
+        </td>
+    </tr>
+
+</table>
+
+@section scripts{
+    <script src="~/Scripts/Application/Controllers.js"></script>
+}
