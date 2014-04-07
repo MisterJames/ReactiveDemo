@@ -9,8 +9,17 @@ using System.Web.Routing;
 
 namespace ReactiveApp.Web
 {
+    public enum DbServiceState
+    {
+        RealTime,
+        TableStorage,
+        LocalCache
+    }
+
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static DbServiceState DbServiceState { get; set; }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +27,9 @@ namespace ReactiveApp.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            DbServiceState = DbServiceState.RealTime;
+
         }
     }
 }
