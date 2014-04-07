@@ -9,6 +9,8 @@
     <p class="lead">Gremlins may strike at any time but reactive applications have the anti-gremom.</p>
 </div>
 
+<div class="alert alert-success" style="display:none" id="cart-response"></div>
+
 <div class="row">
     <table class="table">
         <tr ng-repeat="product in products">
@@ -22,6 +24,22 @@
 @section scripts{
     <script src="~/Scripts/Application/Controllers.js"></script>
     <script type="text/javascript">
+
+        function setSuccessAlert() {
+            var cartResponse = $("#cart-response");
+            cartResponse.html('Sweet! Added to your cart.');
+            cartResponse.removeClass('alert-error');
+            cartResponse.show().delay(3000).fadeOut(400);
+            cartResponse.addClass('alert-success');
+        }
+
+        function setFailedAlert() {
+            var cartResponse = $("#cart-response");
+            cartResponse.html('Lamesauce. =( Couldn\'t add to your cart at this time');
+            cartResponse.removeClass('alert-success');
+            cartResponse.show().delay(3000).fadeOut(400);
+            cartResponse.addClass('alert-danger');
+        }
 
         $(function() {
             $('.btn-add-item').click(function() {
@@ -38,6 +56,11 @@
                     type: 'POST',
                     url: cartUrl,
                     data: message
+                }).done(function () {
+                        setSuccessAlert();
+                    })
+                  .fail(function () {
+                    setFailedAlert();
                 });
 
             });

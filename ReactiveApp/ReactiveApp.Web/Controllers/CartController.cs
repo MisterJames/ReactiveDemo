@@ -90,7 +90,7 @@ namespace ReactiveApp.Web.Controllers
                 ItemName = item.Name,
                 Quantity = item.Quantity
             };
-
+            
             try
             {
                 var serializedItem = JsonConvert.SerializeObject(itemToAdd);

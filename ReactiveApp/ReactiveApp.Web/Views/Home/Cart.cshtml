@@ -10,6 +10,7 @@
 }
 <h2>Cart</h2>
 
+<div class="alert alert-info" style="display:none" id="cart-loading">Please wait while we load your cart...</div>
 
 <table class="table">
 
@@ -25,5 +26,15 @@
 </table>
 
 @section scripts{
+    <script>
+        $.ajaxSetup({
+            beforeSend: function () {
+                $("#cart-loading").show();
+            },
+            complete: function () {
+                $("#cart-loading").hide();
+            }
+        });
+    </script>
     <script src="~/Scripts/Application/Controllers.js"></script>
 }
