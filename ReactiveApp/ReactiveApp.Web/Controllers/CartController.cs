@@ -33,6 +33,8 @@ namespace ReactiveApp.Web.Controllers
             {
                 CartId = cartId,
                 ItemId = item.ItemId,
+                ItemName = item.Name,
+                MessageId = Guid.NewGuid(),
                 Quantity = item.Quantity
             };
 
