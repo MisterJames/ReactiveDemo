@@ -31,6 +31,7 @@ namespace ReactiveApp.Web.Controllers
             // add item to cart
             var itemToAdd = new AddItemToCart
             {
+                MessageId = Guid.NewGuid(),
                 CartId = cartId,
                 ItemId = item.ItemId,
                 Quantity = item.Quantity
@@ -43,6 +44,7 @@ namespace ReactiveApp.Web.Controllers
                 var storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
                 var queueClient = storageAccount.CreateCloudQueueClient();
                 var queue = queueClient.GetQueueReference("additemtocartqueue");
+                queue.CreateIfNotExists();
                 var message = new CloudQueueMessage(serializedItem);
 
                 queue.AddMessage(message);

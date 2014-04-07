@@ -68,7 +68,7 @@ namespace ReactiveApp.Handler
                     using (var connection = new SqlConnection(Config.DefaultConnection))
                     {
                         connection.Open();
-                        connection.Execute("insert into cartitems(cartid, itemid, quantity, name) values (@cartId, @itemId, @quantity, @name)", message);
+                        connection.Execute("insert into cartitems(cartid, itemid, quantity, name, messageId) values (@cartId, @itemId, @quantity, @itemname, @messageId)", message);
                     }
                 }
         }
@@ -80,7 +80,7 @@ namespace ReactiveApp.Handler
             {
                 CloudTable table = GetTableRefernce();
 
-                var insertOperation = TableOperation.Insert(new CartItemTableEntity(message.MessageId, message.CartId, message.ItemId, message.ItemName, message.Quantity));
+                var insertOperation = TableOperation.InsertOrReplace(new CartItemTableEntity(message.MessageId, message.CartId, message.ItemId, message.ItemName, message.Quantity));
 
                 table.Execute(insertOperation);
             }
