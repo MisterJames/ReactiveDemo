@@ -14,6 +14,8 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Newtonsoft.Json;
 using Reactive.Messages;
 using ReactiveApp.Web.Models;
+using Microsoft.WindowsAzure.Storage.Table;
+using ReactiveApp.Common;
 
 namespace ReactiveApp.Web.Controllers
 {
@@ -32,7 +34,15 @@ namespace ReactiveApp.Web.Controllers
 
         private List<AddItemModel> GetCartFromTable()
         {
-            throw new NotImplementedException();
+            var cartId = Guid.Parse((string)HttpContext.Current.Session[MvcApplication.SessionCartIdKey]);
+
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+            CloudTable table = tableClient.GetTableReference("cartitems");
+            var query = new TableQuery<CartItemTableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, cartId.ToString()));
+
+            return table.ExecuteQuery(query).Select(x => new AddItemModel { ItemId = x.ItemId, Name = x.Name, Quantity = x.Quanity }).ToList();
+            
         }
 
         private List<AddItemModel> GetCartFromRelational()

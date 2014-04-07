@@ -9,6 +9,8 @@ namespace ReactiveApp.Common
 {
     public class CartItemTableEntity:TableEntity
     {
+        public CartItemTableEntity() { }
+
         public CartItemTableEntity(Guid messageId, Guid cartId, Guid itemId, string name, int quantity)
         {
             this.PartitionKey = cartId.ToString();

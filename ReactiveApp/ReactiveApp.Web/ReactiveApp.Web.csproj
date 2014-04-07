@@ -284,6 +284,10 @@
       <Project>{77AAEBDE-A922-4140-96A7-B4BD923B6272}</Project>
       <Name>Reactive.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReactiveApp.Common\ReactiveApp.Common.csproj">
+      <Project>{60f40c4e-471c-443c-908a-927c028465e1}</Project>
+      <Name>ReactiveApp.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
