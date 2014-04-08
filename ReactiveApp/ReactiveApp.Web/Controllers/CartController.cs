@@ -83,7 +83,7 @@ namespace ReactiveApp.Web.Controllers
             var cartId = Guid.Parse((string)HttpContext.Current.Session[MvcApplication.SessionCartIdKey]);
 
             // add item to cart
-            var message = new ItemAddedToCart
+            var itemToAdd = new AddItemToCart
             {
                 MessageId = Guid.NewGuid(),
                 CartId = cartId,
@@ -94,12 +94,15 @@ namespace ReactiveApp.Web.Controllers
             
             try
             {
-                // save the item to the cart
-                using (var connection = new SqlConnection(Config.DefaultConnection))
-                {
-                    connection.Open();
-                    connection.Execute("insert into cartitems(cartid, itemid, quantity, name, messageId) values (@cartId, @itemId, @quantity, @itemname, @messageId)", message);
-                }
+                var serializedItem = JsonConvert.SerializeObject(itemToAdd);
+
+                var storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
+                var queueClient = storageAccount.CreateCloudQueueClient();
+                var queue = queueClient.GetQueueReference("additemtocartqueue");
+                queue.CreateIfNotExists();
+                var message = new CloudQueueMessage(serializedItem);
+
+                queue.AddMessage(message);
                 
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }

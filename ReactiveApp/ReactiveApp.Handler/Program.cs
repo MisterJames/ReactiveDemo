@@ -40,6 +40,7 @@ namespace ReactiveApp.Handler
 
             PublishToRelationalDataStore(queueClient, queueMessage);
             PublisToTableDataStore(queueClient, queueMessage);
+
         }
         private static string GetEvent(AddItemToCart message)
         {
@@ -60,6 +61,7 @@ namespace ReactiveApp.Handler
             queue.CreateIfNotExists();
             queue.AddMessage(queueMessage);
         }
+        
         public static void InsertIntoRelational([QueueInput("itemaddedtocartrelational")]string inputText)
         {
                 var message = JsonConvert.DeserializeObject<Reactive.Messages.ItemAddedToCart>(inputText);
@@ -85,6 +87,7 @@ namespace ReactiveApp.Handler
                 table.Execute(insertOperation);
             }
         }
+       
         private static CloudTable GetTableRefernce()
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(Config.StorageConnectionString);
